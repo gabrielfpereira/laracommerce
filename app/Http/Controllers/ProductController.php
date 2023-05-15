@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -22,15 +24,24 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+
+        return view('products.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $request->merge(['user_id' => auth()->user()->id]);
+        $product = Product::create((array) $request->only(['title','description','details','price', 'user_id']));
+        $product->categories()->attach($request->only('category'));
+
+        return redirect()->route('product.index')->with('message', [
+            'type' => 'success',
+            'content' => 'Produto cadastrado com sucesso.'
+        ]);
     }
 
     /**
@@ -62,6 +73,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->back()->with('message', [
+            'type' => 'danger',
+            'content' => 'Produto deletado.'
+        ]);
     }
 }

@@ -17,6 +17,16 @@
         </div>
 
         <div class="card-body">
+          @if (session('message'))
+            <div class="alert alert-{{session('message')['type']}}">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+              <span>
+                {{ session('message')['content'] }}
+              </span>
+            </div>
+          @endif
 
           <div class="">
             <table class="table tablesorter " id="">
@@ -29,12 +39,14 @@
                 </tr>
              </thead>
               <tbody>
+                @foreach ($products as $product)
+                    
                 <tr>
-                  <td>Admin Admin</td>
+                  <td>{{ $product->title }}</td>
                   <td>
-                    <a href="mailto:admin@white.com">admin@white.com</a>
+                    {{ $product->price }}
                   </td>
-                  <td>25/02/2020 09:11</td>
+                  <td>{{ $product->created_at }}</td>
                   <td class="text-right">
                     <div class="dropdown">
                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,10 +54,16 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                         <a class="dropdown-item" href="{{ route('product.edit', 1) }}">Edit</a>
+                        <form action="{{ route('product.destroy', $product->id) }}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <button class="dropdown-item" type="submit">Excluir</button>
+                        </form>
                       </div>
                     </div>
                   </td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>

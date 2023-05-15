@@ -18,7 +18,8 @@
 
         <div class="card-body">
 
-            <form>
+            <form method="POST" action="{{ route('product.store') }}">
+              @csrf
                 <div class="form-group">
                   <label for="product-name">Nome do produto</label>
                   <input type="text" name="title" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" id="product-name" placeholder="Digite o nome do produto...">
@@ -35,7 +36,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="product-price">Preço</label>
-                            <input type="number" name="price" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" id="product-price" placeholder="Quanto custa seu produto?">
+                            <input type="text" name="price" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" id="product-price" placeholder="Quanto custa seu produto?">
                             @include('alerts.feedback', ['field' => 'price'])
                         </div>
                     </div>
@@ -43,11 +44,10 @@
                         <div class="form-group">
                             <label for="product-category">Categoria</label>
                             <select class="form-control{{ $errors->has('category') ? ' is-invalid' : '' }}" id="product-category" name="category">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                              <option value="">selecione</option>
+                              @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>                                  
+                              @endforeach
                             </select>
                             @include('alerts.feedback', ['field' => 'category'])
                         </div>
@@ -56,9 +56,11 @@
 
                 <div class="form-group">
                     <label for="product-details">Detalhes do Produto</label>
-                    <textarea class="form-control" id="product-details" name="" cols="80" rows="50" placeholder="Descreva com detalhes o seu produto...">
+                    <textarea class="form-control" id="product-details" name="details" cols="80" rows="50" placeholder="Descreva com detalhes o seu produto...">
 
                     </textarea>
+                    @include('alerts.feedback', ['field' => 'content'])
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
