@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -26,9 +29,11 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $category = Category::create((array) $request->only('name'));
+
+        return redirect()->back()->with('message', ['type' => 'success', 'content' => 'Nova categoria cadastrada com sucesso.']);
     }
 
     /**
@@ -44,15 +49,17 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return redirect()->route('category.index')->with('category_edit', ['name' => $category->name, 'id' => $category->id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        $category->update((array) $request->only('name'));
+
+        return redirect()->route('category.index')->with('message', ['type' => 'success', 'content' => 'Categoria Atualizada.']);
     }
 
     /**
@@ -60,6 +67,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->back()->with('message', ['type' => 'warning', 'content' => 'Categoria Excluida']);
     }
 }

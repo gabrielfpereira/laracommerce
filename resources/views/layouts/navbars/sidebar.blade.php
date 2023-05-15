@@ -35,6 +35,21 @@
                     </ul>
                 </div>
             </li>
+
+            <li @if ($pageSlug == 'products') class="active " @endif>
+                <a href="{{ route('product.index') }}">
+                    <i class="tim-icons icon-tag"></i>
+                    <p>{{ _('Produtos') }}</p>
+                </a>
+            </li>
+
+            <li @if ($pageSlug == 'categories') class="active " @endif>
+                <a href="{{ route('category.index') }}">
+                    <i class="tim-icons icon-pin"></i>
+                    <p>{{ _('Categorias') }}</p>
+                </a>
+            </li>
+            
             <li @if ($pageSlug == 'icons') class="active " @endif>
                 <a href="{{ route('pages.icons') }}">
                     <i class="tim-icons icon-atom"></i>

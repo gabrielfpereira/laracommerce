@@ -100,7 +100,7 @@
                   <button class="btn btn-primary btn-block" onclick="demo.showNotification('top','center')">Top Center</button>
                 </div>
                 <div class="col-md-4">
-                  <button class="btn btn-primary btn-block" onclick="demo.showNotification('top','right')">Top Right</button>
+                  <button class="btn btn-primary btn-block" onclick="showNotification('top','right')">Top Right</button>
                 </div>
               </div>
             </div>
@@ -124,4 +124,23 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function showNotification(from, align){
+  color = 2;
+
+  $.notify({
+      icon: "tim-icons icon-bell-55",
+      message: "Minha notificação personalizada!"
+
+    },{
+        type: type[color],
+        timer: 8000,
+        placement: {
+            from: from,
+            align: align
+        }
+    });
+}
+  </script>
 @endsection
