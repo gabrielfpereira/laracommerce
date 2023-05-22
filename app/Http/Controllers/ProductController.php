@@ -14,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with(['categories'])->get();
+        // dd($products);
 
         return view('products.index', compact('products'));
     }
@@ -36,7 +37,10 @@ class ProductController extends Controller
     {
         $request->merge(['user_id' => auth()->user()->id]);
         $product = Product::create((array) $request->only(['title','description','details','price', 'user_id']));
-        $product->categories()->attach($request->only('category'));
+        foreach ($request->only('category') as $value) {
+            # code...
+            $product->categories()->attach($value);
+        }
 
         return redirect()->route('product.index')->with('message', [
             'type' => 'success',

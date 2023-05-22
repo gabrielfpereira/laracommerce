@@ -43,13 +43,13 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="product-category">Categoria</label>
-                            <select class="form-control{{ $errors->has('category') ? ' is-invalid' : '' }}" id="product-category" name="category">
-                              <option value="">selecione</option>
+                            <select multiple class="bg-white selectpicker form-control{{ $errors->has('category') ? ' is-invalid' : '' }}" id="product-category" name="category[]">
+                              
                               @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>                                  
                               @endforeach
                             </select>
-                            @include('alerts.feedback', ['field' => 'category'])
+                            @include('alerts.feedback', ['field' => 'category'])                            
                         </div>
                     </div>
                 </div>
@@ -72,4 +72,8 @@
     </div>
   </div>
 </div>
+<script>
+  $('select').selectpicker();
+
+</script>
 @endsection

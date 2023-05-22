@@ -35,6 +35,7 @@
                   <th scope="col">Name</th>
                   <th scope="col">Preço</th>
                   <th scope="col">Data de Criação</th>
+                  <th scope="col">Categorias</th>
                   <th scope="col"></th>
                 </tr>
              </thead>
@@ -47,6 +48,11 @@
                     {{ $product->price }}
                   </td>
                   <td>{{ $product->created_at }}</td>
+                  <td>
+                  @foreach ($product->categories as $category)
+                    {{ $product->categories->count() > 1 ? $loop->last ? $category->name : "$category->name |" : $category->name }}                      
+                  @endforeach
+                  </td>
                   <td class="text-right">
                     <div class="dropdown">
                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
