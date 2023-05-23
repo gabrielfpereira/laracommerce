@@ -23,6 +23,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('/product', ProductController::class);
+Route::post('/product/filter', [ProductController::class, 'filter'])->name('product.filter.name');
+Route::get('/product/filter/{id}', [ProductController::class, 'filter'])->name('product.filter.category');
 
 Route::resource('/category', CategoryController::class);
 

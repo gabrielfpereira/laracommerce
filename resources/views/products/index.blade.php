@@ -17,6 +17,33 @@
         </div>
 
         <div class="card-body">
+          <form action="{{ route('product.filter.name') }}" method="POST">
+            @csrf
+            <div class="row">
+              <div class="col">
+                <input name="filter_name" type="text" class="form-control" placeholder="Pesquise o produto pelo nome..." aria-describedby="button-addon2">
+                
+              </div>
+              <div class="col">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if ($category_selected)
+                      {{ $category_selected->name }}
+                    @else
+                      Categoria                        
+                    @endif
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    @foreach ($categories as $category)
+                      <a class="dropdown-item" href="{{ route('product.filter.category', $category->id) }}">{{ $category->name }}</a>                        
+                    @endforeach
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-simple">Pesquisar</button>
+
+          </form>
           @if (session('message'))
             <div class="alert alert-{{session('message')['type']}}">
               <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
@@ -27,6 +54,8 @@
               </span>
             </div>
           @endif
+
+          <div class="dropdown-divider"></div>
 
           <div class="">
             <table class="table tablesorter " id="">

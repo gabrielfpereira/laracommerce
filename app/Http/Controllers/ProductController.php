@@ -15,9 +15,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['categories'])->get();
-        // dd($products);
+        $categories = Category::all();
 
-        return view('products.index', compact('products'));
+        return view('products.index', compact(['products','categories']));
     }
 
     /**
@@ -83,5 +83,21 @@ class ProductController extends Controller
             'type' => 'danger',
             'content' => 'Produto deletado.'
         ]);
+    }
+
+    public function filter(Request $request, int $id = 0)
+    {
+        // dd($products);
+        $categories = Category::all();
+
+        if($id){
+            $products = Category::find($id)->products()->get();
+            $category_selected = $categories->find($id);
+        }else{
+            $products = Product::with('categories')->where('title', 'LIKE', "%". $request->filter_name ."%")->get();
+            $category_selected = null;
+        }
+        return view('products.index', compact('products','categories','category_selected'));
+
     }
 }
